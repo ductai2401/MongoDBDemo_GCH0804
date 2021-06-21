@@ -12,16 +12,46 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('public'))
 
+var dsNotToDelete = ['ao','quan','bep','my goi'];
+
+const dbHandler = require('./databaseHandler')
+
 
 //search chinh xac=> tim gan dung
-app.post('/search',async (req,res)=>{
+app.post('/search', async (req,res)=>{
     const searchText = req.body.txtName;
-    var client= await MongoClient.connect(url);
-    var dbo = client.db("DoQuocBinhDB");
-    const searchCondition = new RegExp(searchText,'i')
-    var results = await dbo.collection("SanPham").
-                                        find({name:searchCondition}).toArray();
+    const results =  await dbHandler.searchSanPham(searchText,"SanPham");
     res.render('allProduct',{model:results})
+})
+
+app.post('/update',async (req,res)=>{
+    const id = req.body.id;
+    const nameInput = req.body.txtName;
+    const priceInput = req.body.txtPrice;
+    const newValues ={$set : {name: nameInput,price:priceInput}};
+    const ObjectID = require('mongodb').ObjectID;
+    const condition = {"_id" : ObjectID(id)};
+    
+    const client= await MongoClient.connect(url);
+    const dbo = client.db("DoQuocBinhDB");
+    await dbo.collection("SanPham").updateOne(condition,newValues);
+    res.redirect('/view');
+})
+app.get('/delete',async (req,res)=>{
+    const id = req.query.id;
+    var ObjectID = require('mongodb').ObjectID;
+    const condition = {"_id" : ObjectID(id)};
+
+    const client= await MongoClient.connect(url);
+    const dbo = client.db("DoQuocBinhDB");
+    const productToDelete = await dbo.collection("SanPham").findOne(condition);
+    const index = dsNotToDelete.findIndex((e)=>e==productToDelete.name);
+    if (index !=-1) {
+        res.end('khong the xoa vi sp dac biet: ' + dsNotToDelete[index])
+    }else{
+        await dbo.collection("SanPham").deleteOne(condition);
+        res.redirect('/view');
+    }   
 })
 
 app.get('/edit',async (req,res)=>{
