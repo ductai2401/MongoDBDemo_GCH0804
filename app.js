@@ -1,0 +1,65 @@
+const express = require('express')
+const hbs = require('hbs')
+
+var app = express();
+app.set('view engine','hbs')
+
+var MongoClient = require('mongodb').MongoClient;
+var url =  "mongodb+srv://tommy:123456abc@cluster0.lkrga.mongodb.net/test";
+
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.static('public'))
+
+
+//search chinh xac=> tim gan dung
+app.post('/search',async (req,res)=>{
+    const searchText = req.body.txtName;
+    var client= await MongoClient.connect(url);
+    var dbo = client.db("DoQuocBinhDB");
+    const searchCondition = new RegExp(searchText,'i')
+    var results = await dbo.collection("SanPham").
+                                        find({name:searchCondition}).toArray();
+    res.render('allProduct',{model:results})
+})
+
+app.get('/edit',async (req,res)=>{
+    const id = req.query.id;
+    var ObjectID = require('mongodb').ObjectID;
+    const condition = {"_id" : ObjectID(id)};
+
+    const client= await MongoClient.connect(url);
+    const dbo = client.db("DoQuocBinhDB");
+    const productToEdit = await dbo.collection("SanPham").findOne(condition);
+    res.render('edit',{product:productToEdit})
+})
+
+app.get('/view',async (req,res)=>{
+    var client= await MongoClient.connect(url);
+    var dbo = client.db("DoQuocBinhDB");
+    var results = await dbo.collection("SanPham").find({}).toArray();
+    res.render('allProduct',{model:results})
+})
+
+app.post('/doInsert', async (req,res)=>{
+    var nameInput = req.body.txtName;
+    var priceInput = req.body.txtPrice;
+
+    var newProduct = {name:nameInput, price:priceInput, size : {dai:20, rong:40}}
+    var client= await MongoClient.connect(url);
+    var dbo = client.db("DoQuocBinhDB");
+    await dbo.collection("SanPham").insertOne(newProduct);
+    res.render('index')
+})
+app.get('/insert',(req,res)=>{
+    res.render('insert')
+})
+
+app.get('/',(req,res)=>{
+    res.render('index')
+})
+
+var PORT = process.env.PORT || 5000;
+app.listen(PORT);
+console.log('Server is running at: '+ PORT);
