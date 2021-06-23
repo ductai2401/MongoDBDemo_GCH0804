@@ -66,20 +66,15 @@ app.get('/edit',async (req,res)=>{
 })
 
 app.get('/view',async (req,res)=>{
-    var client= await MongoClient.connect(url);
-    var dbo = client.db("DoQuocBinhDB");
-    var results = await dbo.collection("SanPham").find({}).toArray();
+    const results =  await dbHandler.searchSanPham('',"SanPham");
     res.render('allProduct',{model:results})
 })
 
 app.post('/doInsert', async (req,res)=>{
     var nameInput = req.body.txtName;
     var priceInput = req.body.txtPrice;
-
     var newProduct = {name:nameInput, price:priceInput, size : {dai:20, rong:40}}
-    var client= await MongoClient.connect(url);
-    var dbo = client.db("DoQuocBinhDB");
-    await dbo.collection("SanPham").insertOne(newProduct);
+    await dbHandler.insertOneIntoCollection(newProduct,"SanPham");
     res.render('index')
 })
 app.get('/insert',(req,res)=>{
