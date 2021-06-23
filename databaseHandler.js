@@ -22,4 +22,15 @@ async function getDbo() {
     return dbo;
 }
 
-module.exports = {searchSanPham,insertOneIntoCollection}
+async function checkUser(nameIn,passwordIn){
+    const dbo = await getDbo();
+    const results = await dbo.collection("users").
+        findOne({$and:[{username:nameIn},{password:passwordIn}]});
+    if(results !=null)
+        return true;
+    else
+        return false;
+
+}
+
+module.exports = {searchSanPham,insertOneIntoCollection,checkUser}

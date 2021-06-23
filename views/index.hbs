@@ -9,8 +9,21 @@
 </head>
 <body>
     <img src="pics/bacHo.jpg" width="400px" height="300px"/>
-    <h2 class="redText">Hello Index</h2>
-    <a href="/insert">New Product</a>
-    <a href="/view">All products</a>
+    <h2 class="redText">Welcome {{loginName}}</h2>
+    
+    <form action="/login" method="post">
+        User Name <input type="text" name="txtName">
+        <br>
+        Password <input type="password" name="txtPassword">
+        <br>
+        <h2 style="color: red;">{{errorMsg}}</h2>
+        <input type="submit" value="Login"> 
+    </form>
+
+    <ul>
+        <li><a href="/insert">New Product</a></li>
+        <li><a href="/view">All products</a></li>
+        <li><a href="/register">Register</a></li>
+    </ul>
 </body>
 </html>
