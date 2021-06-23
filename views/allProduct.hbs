@@ -20,6 +20,7 @@
            <tr>
                <th>Name</th>
                <th>Price</th>
+               <th>Image</th>
                <th>Edit</th>
                <th>Delete</th>
            </tr>
@@ -29,6 +30,7 @@
            <tr>
                 <td>{{name}}</td>
                 <td>{{price}}</td>
+                <td><img src="{{imgUrl}}" width="150px" height="100px"></td>
                  <td><a href="/edit?id={{_id}}">Edit</a></td>
                 <td><a href="/delete?id={{_id}}" onclick="return confirm('Are you sure')">Delete</a></td>
             </tr>
