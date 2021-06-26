@@ -4,15 +4,129 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+		body{
+            
+			background-image: url("https://st3.depositphotos.com/8543466/17138/i/1600/depositphotos_171381414-stock-photo-kids-toys-background-with-teddy.jpg");
+			background-repeat: no-repeat;
+			width: 100%;
+			height: 100vh;
+			background-attachment: scroll;
+            position: relative;
+		}
+		.image{
+			margin: auto;
+			display: block;
+			width: 100%;
+			height: 400px;
+		}
+		table{
+			background-color: white;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+
+		table, td, th{
+			border: 1px solid #656464;
+			padding: 10px;
+		}
+		table td{
+			width: 300px;
+			text-align:  center;
+		}
+
+		table a{
+			color:blue;
+		}
+		table a:hover{
+			color: red;
+		}
+
+		table img{
+			width: 200px;
+		}
+		ul {
+ 			list-style-type: none;
+ 			margin: 0;
+ 			padding: 0;
+ 			overflow: hidden;
+		}
+
+		li {
+			float: left;
+
+		}
+
+		li a {
+ 			display: inline;
+  			text-transform: uppercase;
+  			text-decoration: none;
+  			font-weight: bold;
+ 			font-size: 24px;
+ 			color: rgb(34, 8, 180);
+ 			text-align: center;
+  			padding: 40px;			
+		}	
+
+		li a:hover {
+		  background-color: black;
+		}
+		.login{
+		  width: 500px;
+		  height: 400px;
+		  border: 4px solid green;
+		  border-radius: 20px;
+		  padding-top: 10px;
+		  text-align: center;
+		  padding: 10px;
+		  margin: auto;
+		  text-align: center;
+		}
+		h1{
+		  color: green;
+		}
+		input{
+		  width: 200px;
+		  height: 80px;
+		  margin-bottom: 20px;
+		  border-radius: 10px;
+		  border:3px solid grey;
+		  padding-left: 20px;
+		  font-size: 30px;
+		}
+		.button{
+		  margin: auto;
+		  width: 200px;
+		  border-radius: 20px;
+		  border:none;
+		  background-color: #45a049;
+		  color: white;
+		  font-size: 40px;
+		  display: block;
+		}
+		input.button:hover{
+		  font-size:50px;
+		  text-decoration: underline;	
+		  padding: 5px;
+		}
+
+	</style>
     <title>Edit Product</title>
 </head>
 <body>
     <form action="/update" method="post">
-        <input type="hidden" name="id" value="{{product._id}}">
-        Name <input type="text" name="txtName" value="{{product.name}}">
+    <div class="login">
+        <input  type="hidden" name="id" value="{{product._id}}">
+         <input placeholder="Name" type="text" name="txtName" value="{{product.name}}">
         <br/>
-        Price : <input type="text" name="txtPrice" value="{{product.price}}">
-        <input type="submit" value="Update">
+         <input placeholder="Price" type="text" name="txtPrice" value="{{product.price}}">
+        <br>
+         <input placeholder="Image Url" type="text" name="imgURL" value="{{imgUrl}}">
+        <br>
+        <input class="button" type="submit" value="Update">
+    </div>
+        
     </form>
 </body>
 </html>

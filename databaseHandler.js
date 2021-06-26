@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
-const url =  "mongodb+srv://tommy:123456abc@cluster0.lkrga.mongodb.net/test";
-const dbName = "DoQuocBinhDB";
+const url =  "mongodb+srv://doductai2401:ductailc123@cluster0.4xfxs.mongodb.net/test";
+const dbName = "DoDucTaiDB";
 
 
 async function  searchSanPham(condition,collectionName){  
@@ -22,4 +22,14 @@ async function getDbo() {
     return dbo;
 }
 
-module.exports = {searchSanPham,insertOneIntoCollection}
+async function checkUser(nameIn,passwordIn){
+    const dbo = await getDbo();
+    const results = await dbo.collection("users").
+        findOne({$and:[{user:nameIn},{password:passwordIn}]})
+        if(results != null)
+            return true;
+        else
+            return false;
+}
+
+module.exports = {searchSanPham,insertOneIntoCollection,checkUser}

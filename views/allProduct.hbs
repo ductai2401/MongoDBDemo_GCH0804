@@ -7,18 +7,64 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        table, td, th{
+			border: 1px solid #656464;
+			padding: 10px;
+            text-align:  center;
+		}
+        table td{
+			width: 300px;
+			
+		}
+        ul {
+ 			list-style-type: none;
+ 			margin: 0;
+ 			padding: 0;
+ 			overflow: hidden;
+		}
+
+		li {
+			float: left;
+
+		}
+
+		li a {
+ 			display: inline;
+  			text-transform: uppercase;
+  			text-decoration: none;
+  			font-weight: bold;
+ 			font-size: 24px;
+ 			color: rgb(34, 8, 180);
+ 			text-align: center;
+  			padding: 40px;			
+		}	
+
+		li a:hover {
+		  background-color: black;
+        }
+    </style>
     <title>All products</title>
 </head>
 <body>
+    <ul>
+        <li><a href="/insert">New Product</a></li>
+        <li><a href="/view">All products</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/">Login</a></li>
+    </ul> 
+    <h2>{{username}}</h2>
    <form method="POST" action="/search">
         <input type="text" name="txtName">
         <input type="submit" value="Search">
    </form>
+   <a href="/">Go Home</a>
    <table class="table table-hover">
        <thead>
            <tr>
                <th>Name</th>
                <th>Price</th>
+               <th>Picture</th>
                <th>Edit</th>
                <th>Delete</th>
            </tr>
@@ -28,12 +74,13 @@
            <tr>
                 <td>{{name}}</td>
                 <td>{{price}}</td>
+                <td><img src="{{imgUrl}}" with="200px" height="300px"></td>
                  <td><a href="/edit?id={{_id}}">Edit</a></td>
                 <td><a href="/delete?id={{_id}}" onclick="return confirm('Are you sure')">Delete</a></td>
             </tr>
             {{/each}}
        </tbody>      
    </table>
-    <a href="/">Go Home</a>
+    
 </body>
 </html>
